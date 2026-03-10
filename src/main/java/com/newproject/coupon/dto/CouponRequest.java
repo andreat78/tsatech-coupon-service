@@ -6,12 +6,13 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class CouponRequest {
     @NotBlank
     private String code;
 
-    @NotBlank
     private String name;
 
     @NotBlank
@@ -39,6 +40,7 @@ public class CouponRequest {
     private OffsetDateTime dateStart;
     private OffsetDateTime dateEnd;
     private Integer usageLimit;
+    private Map<String, LocalizedContent> translations = new LinkedHashMap<>();
 
     public String getCode() {
         return code;
@@ -126,5 +128,13 @@ public class CouponRequest {
 
     public void setUsageLimit(Integer usageLimit) {
         this.usageLimit = usageLimit;
+    }
+
+    public Map<String, LocalizedContent> getTranslations() {
+        return translations;
+    }
+
+    public void setTranslations(Map<String, LocalizedContent> translations) {
+        this.translations = translations;
     }
 }

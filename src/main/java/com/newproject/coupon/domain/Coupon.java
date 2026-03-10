@@ -3,6 +3,8 @@ package com.newproject.coupon.domain;
 import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "coupon_service_coupon")
@@ -49,6 +51,9 @@ public class Coupon {
 
     @Column(name = "updated_at", nullable = false)
     private OffsetDateTime updatedAt;
+
+    @OneToMany(mappedBy = "coupon", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CouponTranslation> translations = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -160,5 +165,13 @@ public class Coupon {
 
     public void setUpdatedAt(OffsetDateTime updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public List<CouponTranslation> getTranslations() {
+        return translations;
+    }
+
+    public void setTranslations(List<CouponTranslation> translations) {
+        this.translations = translations;
     }
 }

@@ -2,6 +2,8 @@ package com.newproject.coupon.dto;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class CouponResponse {
     private Long id;
@@ -18,6 +20,7 @@ public class CouponResponse {
     private Integer usageLimit;
     private Integer usedCount;
     private OffsetDateTime updatedAt;
+    private Map<String, LocalizedContent> translations = new LinkedHashMap<>();
 
     public Long getId() {
         return id;
@@ -129,5 +132,13 @@ public class CouponResponse {
 
     public void setUpdatedAt(OffsetDateTime updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public Map<String, LocalizedContent> getTranslations() {
+        return translations;
+    }
+
+    public void setTranslations(Map<String, LocalizedContent> translations) {
+        this.translations = translations;
     }
 }

@@ -5,8 +5,10 @@ import com.newproject.coupon.dto.CouponResponse;
 import com.newproject.coupon.dto.PriceQuoteRequest;
 import com.newproject.coupon.dto.PriceQuoteResponse;
 import com.newproject.coupon.service.CouponService;
+import com.newproject.coupon.service.LanguageSupport;
 import jakarta.validation.Valid;
 import java.util.List;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,13 +22,22 @@ public class CouponController {
     }
 
     @GetMapping("/coupons")
-    public List<CouponResponse> listCoupons() {
-        return couponService.list();
+    public List<CouponResponse> listCoupons(
+        @RequestParam(required = false) String lang,
+        @RequestHeader(value = HttpHeaders.ACCEPT_LANGUAGE, required = false) String acceptLanguage
+    ) {
+        String resolvedLanguage = LanguageSupport.resolveLanguage(lang, acceptLanguage);
+        return couponService.list(resolvedLanguage);
     }
 
     @GetMapping("/coupons/{id}")
-    public CouponResponse getCoupon(@PathVariable Long id) {
-        return couponService.get(id);
+    public CouponResponse getCoupon(
+        @PathVariable Long id,
+        @RequestParam(required = false) String lang,
+        @RequestHeader(value = HttpHeaders.ACCEPT_LANGUAGE, required = false) String acceptLanguage
+    ) {
+        String resolvedLanguage = LanguageSupport.resolveLanguage(lang, acceptLanguage);
+        return couponService.get(id, resolvedLanguage);
     }
 
     @PostMapping("/coupons")
@@ -47,7 +58,12 @@ public class CouponController {
     }
 
     @PostMapping("/quote")
-    public PriceQuoteResponse quote(@Valid @RequestBody PriceQuoteRequest request) {
-        return couponService.quote(request);
+    public PriceQuoteResponse quote(
+        @Valid @RequestBody PriceQuoteRequest request,
+        @RequestParam(required = false) String lang,
+        @RequestHeader(value = HttpHeaders.ACCEPT_LANGUAGE, required = false) String acceptLanguage
+    ) {
+        String resolvedLanguage = LanguageSupport.resolveLanguage(lang, acceptLanguage);
+        return couponService.quote(request, resolvedLanguage);
     }
 }
